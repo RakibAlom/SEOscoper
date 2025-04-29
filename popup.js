@@ -188,13 +188,22 @@ function displaySEOData(data) {
   document.getElementById('h4-count').textContent = `H4: ${data.headings.counts.h4 || 0}`;
   document.getElementById('h5-count').textContent = `H5: ${data.headings.counts.h5 || 0}`;
   document.getElementById('h6-count').textContent = `H6: ${data.headings.counts.h6 || 0}`;
-  const headingsList = document.getElementById('headings-list');
-  headingsList.innerHTML = data.headings.list.length
-    ? data.headings.list.map(h => {
-        const level = parseInt(h.tag.replace('h', '')) - 1; // h1=0, h2=1, h3=2, h4=3
-        return `<p class="heading-entry heading-level-${level}">&lt;${h.tag}&gt; ${h.text}</p>`;
-      }).join('')
-    : '<p>No headings found</p>';
+
+  // Headings Diagram
+  const headingsDiagram = document.getElementById('headings-diagram');
+  if (data.headings.list.length) {
+    let diagram = '';
+    const maxTextLength = 50; // Truncate text for readability
+    data.headings.list.forEach((h, index) => {
+      const level = parseInt(h.tag.replace('h', '')) - 1; // h1=0, h2=1, h3=2, h4=3
+      const indent = '  '.repeat(level); // Spaces for source readability
+      const text = h.text.length > maxTextLength ? h.text.substring(0, maxTextLength) + '...' : h.text;
+      diagram += `<div class="heading-${h.tag}">${indent}&lt;${h.tag}&gt; ${text}</div>`;
+    });
+    headingsDiagram.innerHTML = diagram;
+  } else {
+    headingsDiagram.textContent = 'No heading hierarchy available';
+  }
 
   // Images Tab
   document.getElementById('total-images').textContent = `Total Images: ${data.images.total || 0}`;

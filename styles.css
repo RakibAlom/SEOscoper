@@ -8,17 +8,17 @@ body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   width: 600px;
   padding: 1rem;
-  background: #f9fafb; /* Tailwind gray-50 */
-  color: #1f2937; /* Tailwind gray-900 */
+  background: #f9fafb;
+  color: #1f2937;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: #ffffff; /* Tailwind white */
-  border-radius: 0.75rem; /* Tailwind rounded-lg */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* Tailwind shadow-md */
+  background: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   min-height: 600px;
 }
@@ -26,22 +26,22 @@ body {
 .tabs {
   display: flex;
   gap: 0.5rem;
-  border-bottom: 1px solid #e5e7eb; /* Tailwind gray-200 */
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .tab-button {
   padding: 0.5rem 1rem;
-  background: #f3f4f6; /* Tailwind gray-100 */
+  background: #f3f4f6;
   border: none;
   border-radius: 0.5rem 0.5rem 0 0;
   cursor: pointer;
-  font-size: 0.875rem; /* Tailwind text-sm */
-  color: #4b5563; /* Tailwind gray-600 */
+  font-size: 0.875rem;
+  color: #4b5563;
 }
 
 .tab-button.active {
-  background: #1e40af; /* Tailwind blue-800 */
-  color: #ffffff; /* Tailwind white */
+  background: #1e40af;
+  color: #ffffff;
 }
 
 .tab-content {
@@ -58,51 +58,51 @@ body {
 }
 
 .item {
-  background: #f3f4f6; /* Tailwind gray-100 */
+  background: #f3f4f6;
   padding: 1rem;
-  border-radius: 0.5rem; /* Tailwind rounded-md */
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1); /* Tailwind shadow-sm */
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
 }
 
 label {
-  font-weight: 600; /* Tailwind font-semibold */
-  color: #4b5563; /* Tailwind gray-600 */
-  font-size: 0.875rem; /* Tailwind text-sm */
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.875rem;
 }
 
 p {
-  margin-top: 0.5rem; /* Tailwind mt-2 */
-  font-size: 0.875rem; /* Tailwind text-sm */
-  color: #374151; /* Tailwind gray-700 */
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
   word-wrap: break-word;
 }
 
 .char-count {
   display: block;
-  margin-top: 0.25rem; /* Tailwind mt-1 */
-  font-size: 0.75rem; /* Tailwind text-xs */
-  color: #6b7280; /* Tailwind gray-500 */
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #6b7280;
 }
 
 .char-count.warning {
-  color: #dc2626; /* Tailwind red-600 */
-  font-weight: 700; /* Tailwind font-bold */
+  color: #dc2626;
+  font-weight: 700;
 }
 
 footer {
   text-align: center;
-  font-size: 0.75rem; /* Tailwind text-xs */
-  color: #6b7280; /* Tailwind gray-500 */
-  margin-top: 1rem; /* Tailwind mt-4 */
-  padding-top: 0.5rem; /* Tailwind pt-2 */
-  border-top: 1px solid #e5e7eb; /* Tailwind border-gray-200 */
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
 }
 
 footer a, .tab-pane a {
-  color: #1e40af; /* Tailwind blue-800 */
+  color: #1e40af;
   text-decoration: none;
-  font-weight: 600; /* Tailwind font-semibold */
+  font-weight: 600;
 }
 
 footer a:hover, .tab-pane a:hover {
@@ -116,38 +116,39 @@ footer a:hover, .tab-pane a:hover {
 }
 
 .tab-pane ul li {
-  font-size: 0.875rem; /* Tailwind text-sm */
-  color: #374151; /* Tailwind gray-700 */
+  font-size: 0.875rem;
+  color: #374151;
   margin-bottom: 0.25rem;
 }
 
-/* Styles for headings structure */
-.headings-structure {
+/* Styles for headings diagram */
+.headings-diagram {
   margin-top: 0.5rem;
+  font-family: monospace;
+  color: #374151;
 }
 
-.heading-entry {
-  margin: 0.25rem 0; /* Compact vertical spacing */
-  padding: 0.5rem; /* Inner padding for readability */
-  background: #f9fafb; /* Tailwind gray-50 */
-  border-radius: 0.25rem; /* Tailwind rounded */
-  font-size: 0.875rem; /* Tailwind text-sm */
-  color: #374151; /* Tailwind gray-700 */
-  font-weight: 500; /* Tailwind font-medium */
+.headings-diagram .heading-h1 {
+  font-size: 1.5rem; /* Extra large for h1 */
+  font-weight: 700; /* Bold for h1 */
+  margin-top: 5px; /* Separate h1 from next h1 */
+  padding-left: 0.5rem; /* Slight indent for h1 */
 }
 
-.heading-level-0 {
-  padding-left: 0.5rem; /* h1: minimal indent */
+.headings-diagram .heading-h2 {
+  font-size: 1.25rem; /* Smaller for h2 */
+  font-weight: 400;
+  padding-left: 1.5rem; /* Increased indent for h2 */
 }
 
-.heading-level-1 {
-  padding-left: 1rem; /* h2: slight indent */
+.headings-diagram .heading-h3 {
+  font-size: 1rem; /* Even smaller for h3 */
+  font-weight: 400;
+  padding-left: 2.5rem; /* Increased indent for h3 */
 }
 
-.heading-level-2 {
-  padding-left: 1.5rem; /* h3: moderate indent */
-}
-
-.heading-level-3 {
-  padding-left: 2rem; /* h4: deeper indent */
+.headings-diagram .heading-h4 {
+  font-size: 0.875rem; /* Smallest for h4 */
+  font-weight: 400;
+  padding-left: 3.5rem; /* Increased indent for h4 */
 }
