@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SEOscoper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="summary">Summary</button>
+      <button class="tab-button" data-tab="headers">Headers</button>
+      <button class="tab-button" data-tab="images">Images</button>
+      <button class="tab-button" data-tab="links">Links</button>
+      <button class="tab-button" data-tab="tools">Tools</button>
+      <button class="tab-button" data-tab="about">About</button>
+    </div>
+    <div class="tab-content">
+      <div id="summary" class="tab-pane active">
+        <div class="item">
+          <label>Meta Title</label>
+          <p id="meta-title">Loading...</p>
+          <span class="char-count" id="title-chars"></span>
+        </div>
+        <div class="item">
+          <label>Meta Description</label>
+          <p id="meta-desc"></p>
+          <span class="char-count" id="desc-chars"></span>
+        </div>
+        <div class="item">
+          <label>Keywords</label>
+          <p id="keywords"></p>
+        </div>
+        <div class="item">
+          <label>Robots Tags</label>
+          <p id="robots"></p>
+        </div>
+        <div class="item">
+          <label>URL</label>
+          <p id="url"></p>
+        </div>
+        <div class="item">
+          <label>Canonical URL</label>
+          <p id="canonical"></p>
+        </div>
+        <div class="item">
+          <label>Author</label>
+          <p id="author"></p>
+        </div>
+        <div class="item">
+          <label>Publisher</label>
+          <p id="publisher"></p>
+        </div>
+        <div class="item">
+          <label>Language</label>
+          <p id="lang"></p>
+        </div>
+      </div>
+      <div id="headers" class="tab-pane">
+        <div class="item">
+          <label>Heading Counts</label>
+          <p id="h1-count">H1: 0</p>
+          <p id="h2-count">H2: 0</p>
+          <p id="h3-count">H3: 0</p>
+          <p id="h4-count">H4: 0</p>
+          <p id="h5-count">H5: 0</p>
+          <p id="h6-count">H6: 0</p>
+        </div>
+        <div class="item">
+          <label>Headings Structure</label>
+          <!-- Updated to use ul for semantic hierarchy -->
+          <ul id="headings-list" class="headings-tree"></ul>
+        </div>
+      </div>
+      <div id="images" class="tab-pane">
+        <div class="item">
+          <label>Image Stats</label>
+          <p id="total-images">Total Images: 0</p>
+          <p id="images-with-alt">With Alt: 0</p>
+          <p id="images-without-alt">Without Alt: 0</p>
+        </div>
+        <div class="item">
+          <label>Images List</label>
+          <div id="images-list"></div>
+        </div>
+      </div>
+      <div id="links" class="tab-pane">
+        <div class="item">
+          <label>Link Stats</label>
+          <p id="total-links">Total Links: 0</p>
+          <p id="internal-links">Internal Links: 0</p>
+          <p id="external-links">External Links: 0</p>
+          <p id="links-without-text">Without Text: 0</p>
+          <p id="links-without-title">Without Title: 0</p>
+        </div>
+        <div class="item">
+          <label>Links List</label>
+          <div id="links-list"></div>
+        </div>
+      </div>
+      <div id="tools" class="tab-pane">
+        <div class="item">
+          <label>SEO Tools</label>
+          <p><a href="https://ahrefs.com/" target="_blank">Ahrefs</a> - Backlink and keyword analysis</p>
+          <p><a href="https://moz.com/" target="_blank">Moz</a> - SEO and domain authority tools</p>
+          <p><a href="https://www.semrush.com/" target="_blank">SEMrush</a> - Competitor and keyword research</p>
+          <p><a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank">PageSpeed Insights</a> - Site speed optimization</p>
+          <p><a href="https://search.google.com/search-console" target="_blank">Google Search Console</a> - Site performance and indexing</p>
+          <p><a href="https://analytics.google.com/" target="_blank">Google Analytics</a> - Traffic and user behavior</p>
+          <p><a href="https://www.screamingfrog.co.uk/seo-spider/" target="_blank">Screaming Frog</a> - Site crawling and auditing</p>
+          <p><a href="https://gtmetrix.com/" target="_blank">GTmetrix</a> - Performance and speed analysis</p>
+          <p><a href="https://www.spyfu.com/" target="_blank">SpyFu</a> - Competitor keyword research</p>
+          <p><a href="https://keywordtool.io/" target="_blank">Keyword Tool</a> - Keyword suggestions</p>
+          <p><a href="https://www.woorank.com/" target="_blank">WooRank</a> - Website review and SEO audit</p>
+          <p><a href="https://majestic.com/" target="_blank">Majestic</a> - Backlink analysis</p>
+          <p><a href="https://www.deepcrawl.com/" target="_blank">DeepCrawl</a> - Technical SEO auditing</p>
+          <p><a href="https://www.rankmath.com/" target="_blank">Rank Math</a> - WordPress SEO plugin</p>
+          <p><a href="https://yoast.com/" target="_blank">Yoast SEO</a> - Content optimization</p>
+          <p><a href="https://www.seobility.net/" target="_blank">Seobility</a> - SEO checker and audit</p>
+          <p><a href="https://www.seranking.com/" target="_blank">SE Ranking</a> - Rank tracking and audits</p>
+          <p><a href="https://www.link-assistant.com/" target="_blank">SEO PowerSuite</a> - All-in-one SEO toolkit</p>
+          <p><a href="https://www.canva.com/" target="_blank">Canva</a> - Visual content for SEO</p>
+          <p><a href="https://trends.google.com/" target="_blank">Google Trends</a> - Keyword trend analysis</p>
+        </div>
+      </div>
+      <div id="about" class="tab-pane">
+        <div class="item">
+          <label>About SEOscoper</label>
+          <p>SEOscoper is a comprehensive tool designed to assist SEO experts in analyzing critical webpage elements. It provides insights into metadata, headings, images, links, and more—helping you optimize sites for better search engine rankings and user experience.</p>
+          <p>Built by <a href="https://rakibalom.com/" target="_blank">Rakib Alom</a>, a professional SEO expert since 2020, SEOscoper simplifies access to essential SEO information.</p>
+          <p>Contact: <a href="mailto:contact@rakibalom.com">contact@rakibalom.com</a></p>
+          <p>Social Links:</p>
+          <ul>
+            <li><a href="https://www.facebook.com/therakibalom" target="_blank">Facebook</a></li>
+            <li><a href="https://github.com/rakibalom" target="_blank">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/rakibalom/" target="_blank">LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/rakib.alom/" target="_blank">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <footer>SEOscoper by <a href="https://rakibalom.com/" target="_blank">Rakib Alom</a></footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
