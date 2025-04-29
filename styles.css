@@ -126,23 +126,24 @@ footer a:hover, .tab-pane a:hover {
   margin-top: 0.5rem;
   font-family: monospace;
   color: #374151;
+  word-wrap: break-word; /* Ensure text wraps naturally */
 }
 
 .headings-diagram .heading-h1 {
-  font-size: 1.5rem; /* Extra large for h1 */
-  font-weight: 700; /* Bold for h1 */
+  font-size: 1.125rem; /* Slightly larger for h1 */
+  font-weight: 400; /* Regular, no bold */
   margin-top: 5px; /* Separate h1 from next h1 */
   padding-left: 0.5rem; /* Slight indent for h1 */
 }
 
 .headings-diagram .heading-h2 {
-  font-size: 1.25rem; /* Smaller for h2 */
+  font-size: 1rem; /* Smaller for h2 */
   font-weight: 400;
   padding-left: 1.5rem; /* Increased indent for h2 */
 }
 
 .headings-diagram .heading-h3 {
-  font-size: 1rem; /* Even smaller for h3 */
+  font-size: 0.9375rem; /* Slightly smaller for h3 */
   font-weight: 400;
   padding-left: 2.5rem; /* Increased indent for h3 */
 }

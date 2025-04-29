@@ -193,12 +193,12 @@ function displaySEOData(data) {
   const headingsDiagram = document.getElementById('headings-diagram');
   if (data.headings.list.length) {
     let diagram = '';
-    const maxTextLength = 50; // Truncate text for readability
     data.headings.list.forEach((h, index) => {
       const level = parseInt(h.tag.replace('h', '')) - 1; // h1=0, h2=1, h3=2, h4=3
       const indent = '  '.repeat(level); // Spaces for source readability
-      const text = h.text.length > maxTextLength ? h.text.substring(0, maxTextLength) + '...' : h.text;
-      diagram += `<div class="heading-${h.tag}">${indent}&lt;${h.tag}&gt; ${text}</div>`;
+      const prefix = h.tag === 'h1' ? '+ ' : ''; // Add + only for h1
+      const text = h.text; // Full text, no truncation
+      diagram += `<div class="heading-${h.tag}">${indent}${prefix}<${h.tag}> ${text}</div>`;
     });
     headingsDiagram.innerHTML = diagram;
   } else {
