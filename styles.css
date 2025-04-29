@@ -121,67 +121,33 @@ footer a:hover, .tab-pane a:hover {
   margin-bottom: 0.25rem;
 }
 
-/* Enhanced styles for headings structure */
-.headings-tree {
-  list-style: none;
-  margin-left: 0;
-  padding-left: 0;
+/* Styles for headings structure */
+.headings-structure {
+  margin-top: 0.5rem;
 }
 
-.headings-tree li {
-  position: relative;
-  padding: 0.5rem 0 0.5rem 2rem;
+.heading-entry {
+  margin: 0.25rem 0; /* Compact vertical spacing */
+  padding: 0.5rem; /* Inner padding for readability */
+  background: #f9fafb; /* Tailwind gray-50 */
+  border-radius: 0.25rem; /* Tailwind rounded */
   font-size: 0.875rem; /* Tailwind text-sm */
   color: #374151; /* Tailwind gray-700 */
-  border-left: 1px solid #e5e7eb; /* Tailwind gray-200 */
-  margin-left: 1rem;
-}
-
-.headings-tree li:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 1rem;
-  height: 1px;
-  background: #e5e7eb; /* Tailwind gray-200 */
-}
-
-.headings-tree .heading-level-1 {
-  margin-left: 0;
-  font-weight: 700; /* Tailwind font-bold */
-  color: #1e40af; /* Tailwind blue-800 */
-}
-
-.headings-tree .heading-level-2 {
-  margin-left: 1rem;
-  font-weight: 600; /* Tailwind font-semibold */
-  color: #2563eb; /* Tailwind blue-600 */
-}
-
-.headings-tree .heading-level-3 {
-  margin-left: 2rem;
   font-weight: 500; /* Tailwind font-medium */
-  color: #3b82f6; /* Tailwind blue-500 */
 }
 
-.headings-tree .heading-level-4 {
-  margin-left: 3rem;
-  font-weight: 400; /* Tailwind font-normal */
-  color: #60a5fa; /* Tailwind blue-400 */
+.heading-level-0 {
+  padding-left: 0.5rem; /* h1: minimal indent */
 }
 
-.headings-tree .heading-tag {
-  display: inline-block;
-  width: 3rem;
-  font-weight: 600; /* Tailwind font-semibold */
-  color: #4b5563; /* Tailwind gray-600 */
+.heading-level-1 {
+  padding-left: 1rem; /* h2: slight indent */
 }
 
-.headings-tree li:before {
-  content: '├──';
-  background: none;
-  width: auto;
-  font-family: monospace;
-  color: #6b7280; /* Tailwind gray-500 */
+.heading-level-2 {
+  padding-left: 1.5rem; /* h3: moderate indent */
+}
+
+.heading-level-3 {
+  padding-left: 2rem; /* h4: deeper indent */
 }

@@ -79,7 +79,7 @@ function extractSEOData() {
     const canonical = document.querySelector('link[rel="canonical"]')?.href || 'No canonical found';
     const robots = getMetaContent('robots');
 
-    // Extract headings (h1-h4 with level for semantic hierarchy)
+    // Extract headings in document order
     const headings = {
       counts: {
         h1: document.querySelectorAll('h1').length,
@@ -91,14 +91,12 @@ function extractSEOData() {
       },
       list: []
     };
-    ['h1', 'h2', 'h3', 'h4'].forEach(tag => {
-      document.querySelectorAll(tag).forEach((el) => {
-        const text = el.textContent?.trim();
-        if (text) {
-          const level = parseInt(tag.replace('h', '')); // h1=1, h2=2, etc.
-          headings.list.push({ tag, level, text });
-        }
-      });
+    document.querySelectorAll('h1, h2, h3, h4').forEach((el) => {
+      const text = el.textContent?.trim();
+      if (text) {
+        const tag = el.tagName.toLowerCase();
+        headings.list.push({ tag, text });
+      }
     });
 
     // Extract images with src, alt, and title
@@ -106,6 +104,8 @@ function extractSEOData() {
       total: document.querySelectorAll('img').length,
       withAlt: document.querySelectorAll('img[alt]:not([alt=""])').length,
       withoutAlt: document.querySelectorAll('img:not([alt]), img[alt=""]').length,
+      withTitle: document.querySelectorAll('img[title]:not([title=""])').length,
+      withoutTitle: document.querySelectorAll('img:not([title]), img[title=""]').length,
       list: Array.from(document.querySelectorAll('img'))
         .map(img => ({
           src: img.src || '',
@@ -115,7 +115,7 @@ function extractSEOData() {
         .filter(img => img.src)
     };
 
-    // Extract links with text, nofollow, and handle '#'
+    // Extract links with text, nofollow, and preserve '#' URLs
     const links = {
       total: document.querySelectorAll('a[href]').length,
       internal: 0,
@@ -125,16 +125,15 @@ function extractSEOData() {
       list: []
     };
     const currentDomain = window.location.hostname || '';
-    const baseUrl = window.location.origin || '';
     document.querySelectorAll('a[href]').forEach(link => {
       let href = link.getAttribute('href') || '';
       const text = link.textContent?.trim() || '';
       const title = link.getAttribute('title') || '';
       const isNofollow = link.getAttribute('rel')?.includes('nofollow') ? 'No-follow' : 'Do-follow';
 
-      // Handle '#' href with correct slash
-      if (href === '#') {
-        href = `${baseUrl}/#`; // Fixed to include '/'
+      // Preserve '#' URLs as-is
+      if (href.startsWith('#')) {
+        // Do nothing, keep href as-is
       }
 
       links.list.push({ href, text: text || 'No anchor text', isNofollow });
@@ -178,7 +177,7 @@ function displaySEOData(data) {
   if ((data.title || '').length > 60) {
     document.getElementById('title-chars').classList.add('warning');
   }
-  if ((data.desc || '').length > 160) {
+  if (data.desc && data.desc.length > 160) {
     document.getElementById('desc-chars').classList.add('warning');
   }
 
@@ -191,17 +190,18 @@ function displaySEOData(data) {
   document.getElementById('h6-count').textContent = `H6: ${data.headings.counts.h6 || 0}`;
   const headingsList = document.getElementById('headings-list');
   headingsList.innerHTML = data.headings.list.length
-    ? data.headings.list.map(h => `
-        <li class="heading-level-${h.level}" data-level="${h.level}">
-          <span class="heading-tag">${h.tag.toUpperCase()}</span>: ${h.text}
-        </li>
-      `).join('')
-    : '<li>No headings found</li>';
+    ? data.headings.list.map(h => {
+        const level = parseInt(h.tag.replace('h', '')) - 1; // h1=0, h2=1, h3=2, h4=3
+        return `<p class="heading-entry heading-level-${level}">&lt;${h.tag}&gt; ${h.text}</p>`;
+      }).join('')
+    : '<p>No headings found</p>';
 
   // Images Tab
   document.getElementById('total-images').textContent = `Total Images: ${data.images.total || 0}`;
   document.getElementById('images-with-alt').textContent = `With Alt: ${data.images.withAlt || 0}`;
   document.getElementById('images-without-alt').textContent = `Without Alt: ${data.images.withoutAlt || 0}`;
+  document.getElementById('images-with-title').textContent = `With Title: ${data.images.withTitle || 0}`;
+  document.getElementById('images-without-title').textContent = `Without Title: ${data.images.withoutTitle || 0}`;
   const imagesList = document.getElementById('images-list');
   imagesList.innerHTML = data.images.list.length
     ? data.images.list.map((img, i) => `
