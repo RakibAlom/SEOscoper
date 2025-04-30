@@ -91,7 +91,7 @@ function extractSEOData() {
       },
       list: []
     };
-    document.querySelectorAll('h1, h2, h3, h4').forEach((el) => {
+    document.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((el) => {
       const text = el.textContent?.trim();
       if (text) {
         const tag = el.tagName.toLowerCase();
@@ -194,11 +194,12 @@ function displaySEOData(data) {
   if (data.headings.list.length) {
     let diagram = '';
     data.headings.list.forEach((h, index) => {
-      const level = parseInt(h.tag.replace('h', '')) - 1; // h1=0, h2=1, h3=2, h4=3
-      const indent = '  '.repeat(level); // Spaces for source readability
-      const prefix = h.tag === 'h1' ? '+ ' : ''; // Add + only for h1
+      const level = parseInt(h.tag.replace('h', '')) - 1; // h1=0, h2=1, h3=2, h4=3, h5=4, h6=5
+      const indent = '        '.repeat(level); // 8 spaces per level for visual alignment
       const text = h.text; // Full text, no truncation
-      diagram += `<div class="heading-${h.tag}">${indent}${prefix}<${h.tag}> ${text}</div>`;
+      // Escape < and > to display tags as normal text
+      const tagText = `&lt;${h.tag}&gt;`;
+      diagram += `<div class="heading-${h.tag}">${indent}${tagText} ${text}</div>`;
     });
     headingsDiagram.innerHTML = diagram;
   } else {

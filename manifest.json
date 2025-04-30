@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "SEOscoper",
-  "version": "1.1.2", // Bumped version for updates
+  "version": "1.2.17",
   "author": "Rakib Alom",
-  "description": "A powerful SEO analysis tool for experts and beginners. Analyzes webpage metadata, headings, images, links, and more.",
+  "description": "A comprehensive tool designed to assist SEO experts in analyzing critical webpage elements, including metadata, headings, images, and links.",
   "permissions": ["activeTab", "scripting"],
   "action": {
     "default_popup": "popup.html",
