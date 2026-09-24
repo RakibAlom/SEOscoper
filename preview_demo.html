@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEOscoper Extension Interactive Showcase</title>
+  <link rel="stylesheet" href="popup.css">
+  <style>
+    body {
+      background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #090d16 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      overflow-y: auto;
+      font-family: var(--font-family);
+    }
+    .demo-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      max-width: 600px;
+      width: 100%;
+    }
+    .demo-header-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+    .demo-popup-frame {
+      width: 460px;
+      height: 600px;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--bg-app);
+      position: relative;
+    }
+    .demo-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .demo-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+      transition: all 0.2s ease;
+    }
+    .demo-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.6);
+    }
+    .demo-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .demo-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+    .demo-status-pill {
+      font-size: 12px;
+      color: #94a3b8;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(0, 0, 0, 0.25);
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-wrapper">
+    <div class="demo-header-badge">
+      <img src="icons/icon32.png" width="20" height="20" alt="SEOscoper">
+      <span>SEOscoper v2.0.2 • Interactive Extension Preview</span>
+    </div>
+
+    <!-- Demo Tour & Video Recording Toolbar -->
+    <div class="demo-toolbar">
+      <button class="demo-btn-primary" id="btn-play-tour">
+        <span>▶</span> Play Auto Walkthrough
+      </button>
+      <button class="demo-btn-secondary" id="btn-record-tour">
+        <span>🎥</span> Record & Export Video (.webm)
+      </button>
+      <span class="demo-status-pill" id="tour-status">Ready</span>
+    </div>
+
+    <div class="demo-popup-frame">
+      <div class="app-container" id="app">
+        
+        <!-- Header -->
+        <header class="app-header">
+          <div class="header-brand">
+            <div class="brand-logo-wrap">
+              <img src="icons/icon32.png" alt="SEOscoper" class="brand-logo" width="26" height="26">
+            </div>
+            <div class="brand-info">
+              <div class="brand-title">
+                <span class="brand-name">SEOscoper</span>
+                <span class="brand-badge">v2.0.2</span>
+              </div>
+            </div>
+          </div>
+          <div class="header-actions">
+            <button id="btn-refresh" class="icon-btn" title="Re-scan current page" aria-label="Re-scan page">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                <path d="M3 3v5h5"/>
+                <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+                <path d="M16 21h5v-5"/>
+              </svg>
+            </button>
+            <button id="btn-theme-toggle" class="icon-btn" title="Toggle dark/light theme" aria-label="Toggle theme">
+              <svg class="icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+              <svg class="icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- 2-Row Tab Bar -->
+        <nav class="tab-bar-container" role="tablist">
+          <div class="tab-bar-row">
+            <button class="tab-btn active" data-tab="summary">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>Summary</span>
+            </button>
+            <button class="tab-btn" data-tab="score">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>SEO Score</span>
+            </button>
+            <button class="tab-btn" data-tab="headers">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h8"/><path d="M4 18V6"/><path d="M12 18V6"/><path d="m17 12 3-2v8"/></svg>
+              <span>Headers</span>
+            </button>
+            <button class="tab-btn" data-tab="images">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <span>Images</span>
+            </button>
+            <button class="tab-btn" data-tab="videos">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="14" x="3" y="5" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+              <span>Videos</span>
+            </button>
+          </div>
+          <div class="tab-bar-row">
+            <button class="tab-btn" data-tab="links">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <span>Links</span>
+            </button>
+            <button class="tab-btn" data-tab="schema">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Schema</span>
+            </button>
+            <button class="tab-btn" data-tab="tools">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+              <span>SEO Tools</span>
+            </button>
+            <button class="tab-btn" data-tab="about">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <span>About</span>
+            </button>
+          </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="app-main" id="main-content">
+          
+          <!-- TAB 1: SUMMARY -->
+          <section id="pane-summary" class="tab-pane active">
+            <div class="tab-toolbar" style="margin-top: 0; padding-bottom: 8px;">
+              <div class="toolbar-title" style="font-size: 13px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">PAGE METADATA &amp; DIRECTIVES</div>
+              <div class="toolbar-actions" style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary btn-xs" id="demo-btn-copy-all">
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  <span>Copy All</span>
+                </button>
+                <button class="btn btn-secondary btn-xs">JSON</button>
+              </div>
+            </div>
+
+            <div class="fields-list">
+              
+              <div class="field-card">
+                <div class="field-header">
+                  <span class="field-label">Meta Title</span>
+                  <div class="field-badges">
+                    <span class="badge badge-success font-mono">60/60 chars</span>
+                    <span class="badge badge-info font-mono">~551px / 580px</span>
+                  </div>
+                  <button class="copy-btn" title="Copy title">
+                    <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+                <div class="field-value">EasyPro Tools - Free Online Tools for Developers &amp; Marketers</div>
+              </div>
+
+              <div class="field-card">
+                <div class="field-header">
+                  <span class="field-label">Meta Description</span>
+                  <div class="field-badges">
+                    <span class="badge badge-success font-mono">131/160 chars</span>
+                  </div>
+                  <button class="copy-btn" title="Copy description">
+                    <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+                <div class="field-value">Use free online tools for SEO, images, file conversion, and more. Fast, easy, and free utilities to simplify all your online tasks.</div>
+              </div>
+
+              <!-- Meta Keywords Row (Screenshot Match) -->
+              <div class="field-card">
+                <div class="field-header">
+                  <span class="field-label">Meta Keywords</span>
+                  <div class="field-badges">
+                    <span class="badge badge-info font-mono">24 keywords</span>
+                  </div>
+                  <button class="copy-btn" title="Copy keywords">
+                    <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                  </button>
+                </div>
+                <div class="field-value" style="font-size: 11.5px; line-height: 1.45; color: var(--text-secondary); margin-bottom: 8px;">online tools, free tools, web tools, text tools, seo tools, case converter, image tools, developer tools, productivity tools, free online tools, seo tools online, image tools online, free converter tools, pdf converter online, image resizer online, image compressor online, seo checker online, online file converter, free web utilities, online image editor, seo audit online, online pdf tools, free seo tools, image format converter</div>
+                <div class="keywords-pills" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                  <span class="badge font-mono">online tools</span>
+                  <span class="badge font-mono">free tools</span>
+                  <span class="badge font-mono">web tools</span>
+                  <span class="badge font-mono">text tools</span>
+                  <span class="badge font-mono">seo tools</span>
+                  <span class="badge font-mono">case converter</span>
+                  <span class="badge font-mono">image tools</span>
+                  <span class="badge font-mono">developer tools</span>
+                </div>
+              </div>
+
+              <div class="field-card">
+                <div class="field-header">
+                  <span class="field-label">Canonical URL</span>
+                  <div class="field-badges"><span class="badge badge-success">Self-Canonical</span></div>
+                </div>
+                <div class="field-value font-mono">https://easyprotools.com/</div>
+              </div>
+            </div>
+
+            <!-- Compact Overall Score card at bottom (100/100) -->
+            <div class="card score-summary-compact-card" style="margin-top: 14px;">
+              <div class="score-summary-compact-row">
+                <div class="score-ring-wrap-sm">
+                  <svg class="score-ring-sm" viewBox="0 0 100 100">
+                    <circle class="score-ring-bg" cx="50" cy="50" r="42" />
+                    <circle class="score-ring-fill" cx="50" cy="50" r="42" style="stroke-dashoffset: 0; stroke: #10B981;" />
+                  </svg>
+                  <span class="score-number-sm" style="color: #10B981;">100</span>
+                </div>
+                <div class="score-summary-compact-info">
+                  <div class="flex-align-center gap-2">
+                    <span class="score-status-badge badge-success">Excellent (100/100)</span>
+                  </div>
+                  <p class="score-compact-caption">All key on-page SEO parameters look well-optimized!</p>
+                </div>
+                <button class="btn btn-primary btn-xs" id="demo-btn-view-score">
+                  <span>View Details</span>
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 2: SEO SCORE (Screenshot Match 100/100) -->
+          <section id="pane-score" class="tab-pane">
+            <div class="card score-hero-card">
+              <div class="score-container">
+                <div class="score-ring-wrap">
+                  <svg class="score-ring" viewBox="0 0 100 100">
+                    <circle class="score-ring-bg" cx="50" cy="50" r="42" />
+                    <circle class="score-ring-fill" cx="50" cy="50" r="42" style="stroke-dashoffset: 0; stroke: #10B981;" />
+                  </svg>
+                  <div class="score-value-wrap">
+                    <span class="score-number" style="color: #10B981;">100</span>
+                    <span class="score-denom">/100</span>
+                  </div>
+                </div>
+                <div class="score-summary-text">
+                  <div class="score-status-row">
+                    <span class="score-status-badge badge-success">Excellent (100/100)</span>
+                  </div>
+                  <h3 class="score-title">Overall Technical SEO Score</h3>
+                  <p class="score-caption">All key on-page SEO parameters look well-optimized!</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Factor breakdown -->
+            <div class="card score-factors-card">
+              <div class="card-header-clean">
+                <h4 class="section-title">Score Calculation Breakdown</h4>
+                <span class="badge badge-info">10 Factors Evaluated</span>
+              </div>
+              <p class="score-factors-sub">Points are awarded based on technical SEO ranking impact:</p>
+              <div class="score-factors-list">
+                <div class="factor-row">
+                  <div class="factor-left">
+                    <span class="factor-status-icon good">✓</span>
+                    <div class="factor-name-wrap">
+                      <span class="factor-name">Meta Title Tag</span>
+                      <span class="factor-detail">Optimal length (60 characters, within 60 chars / ~580px).</span>
+                    </div>
+                  </div>
+                  <span class="factor-points-badge badge-success font-mono">15/15 pts</span>
+                </div>
+                <div class="factor-row">
+                  <div class="factor-left">
+                    <span class="factor-status-icon good">✓</span>
+                    <div class="factor-name-wrap">
+                      <span class="factor-name">Meta Description</span>
+                      <span class="factor-detail">Ideal length (131 characters, full SERP snippet display).</span>
+                    </div>
+                  </div>
+                  <span class="factor-points-badge badge-success font-mono">15/15 pts</span>
+                </div>
+                <div class="factor-row">
+                  <div class="factor-left">
+                    <span class="factor-status-icon good">✓</span>
+                    <div class="factor-name-wrap">
+                      <span class="factor-name">H1 Heading Structure</span>
+                      <span class="factor-detail">Exactly one clean &lt;h1&gt; heading established.</span>
+                    </div>
+                  </div>
+                  <span class="factor-points-badge badge-success font-mono">15/15 pts</span>
+                </div>
+                <div class="factor-row">
+                  <div class="factor-left">
+                    <span class="factor-status-icon good">✓</span>
+                    <div class="factor-name-wrap">
+                      <span class="factor-name">Canonical Tag</span>
+                      <span class="factor-detail">Self-referencing canonical URL properly declared.</span>
+                    </div>
+                  </div>
+                  <span class="factor-points-badge badge-success font-mono">10/10 pts</span>
+                </div>
+                <div class="factor-row">
+                  <div class="factor-left">
+                    <span class="factor-status-icon good">✓</span>
+                    <div class="factor-name-wrap">
+                      <span class="factor-name">Image Alt Coverage</span>
+                      <span class="factor-detail">All 2 images contain valid descriptive alt text.</span>
+                    </div>
+                  </div>
+                  <span class="factor-points-badge badge-success font-mono">10/10 pts</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 3: HEADERS (Screenshot Match) -->
+          <section id="pane-headers" class="tab-pane">
+            <div class="stat-grid">
+              <div class="stat-card"><div class="stat-num">19</div><div class="stat-label">Total</div></div>
+              <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">H1</div></div>
+              <div class="stat-card"><div class="stat-num">16</div><div class="stat-label">H2</div></div>
+              <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">H3</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">H4</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">H5</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">H6</div></div>
+            </div>
+
+            <!-- Warning Banners from Screenshot -->
+            <div class="heading-warnings-list" style="display: flex; flex-direction: column; gap: 8px; margin: 12px 0;">
+              <div class="tip-pill" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-md); background: rgba(56, 189, 248, 0.12); color: #0284c7; font-size: 12px; font-weight: 500;">
+                <span>⚠️</span>
+                <span>&lt;H2&gt; is over 70 characters (80 chars)</span>
+              </div>
+              <div class="tip-pill" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-md); background: rgba(56, 189, 248, 0.12); color: #0284c7; font-size: 12px; font-weight: 500;">
+                <span>⚠️</span>
+                <span>&lt;H2&gt; is over 70 characters (73 chars)</span>
+              </div>
+              <div class="tip-pill" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-md); background: rgba(56, 189, 248, 0.12); color: #0284c7; font-size: 12px; font-weight: 500;">
+                <span>⚠️</span>
+                <span>&lt;H2&gt; is over 70 characters (76 chars)</span>
+              </div>
+              <div class="tip-pill" style="display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--radius-md); background: rgba(56, 189, 248, 0.12); color: #0284c7; font-size: 12px; font-weight: 500;">
+                <span>⚠️</span>
+                <span>&lt;H2&gt; is over 70 characters (74 chars)</span>
+              </div>
+            </div>
+
+            <div class="list-controls-sticky">
+              <div class="search-input-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="demo-search-headers" class="search-input" placeholder="Search heading text...">
+              </div>
+              <div class="filter-chips">
+                <button class="chip active">All</button>
+                <button class="chip">H1</button>
+                <button class="chip">H2</button>
+                <button class="chip">H3</button>
+                <button class="chip">H4</button>
+                <button class="chip">H5</button>
+                <button class="chip">H6</button>
+              </div>
+            </div>
+
+            <div class="list-summary-bar" style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+              <span class="count-indicator" style="font-size: 12px; color: var(--text-secondary);">Showing 19 of 19 headings</span>
+              <div class="btn-group" style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary btn-xs">Copy All</button>
+                <button class="btn btn-secondary btn-xs">CSV</button>
+                <button class="btn btn-secondary btn-xs">JSON</button>
+              </div>
+            </div>
+
+            <div class="headings-tree-list">
+              <div class="heading-node-card level-1" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card); border-left: 3px solid var(--brand-primary);">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="badge font-mono" style="color: var(--brand-primary);">&lt;H1&gt;</span>
+                  <span class="heading-text" style="font-weight: 600; font-size: 13px;">Online Free Tools</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span class="badge font-mono" style="font-size: 11px;">17c</span>
+                  <button class="btn btn-secondary btn-xs">Locate</button>
+                  <button class="copy-btn"><svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 4: IMAGES (Screenshot Match) -->
+          <section id="pane-images" class="tab-pane">
+            <div class="stat-grid four-col">
+              <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Total Images</div></div>
+              <div class="stat-card"><div class="stat-num text-success" style="color: #10B981;">2</div><div class="stat-label">With Alt</div></div>
+              <div class="stat-card"><div class="stat-num text-danger" style="color: #EF4444;">0</div><div class="stat-label">Missing Alt</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Empty Alt</div></div>
+            </div>
+            <div class="stat-grid four-col" style="margin-top: 8px;">
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">With Title</div></div>
+              <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">No Title</div></div>
+              <div class="stat-card"><div class="stat-num" style="color: #0284c7;">0</div><div class="stat-label">Lazy-Loaded</div></div>
+              <div class="stat-card"><div class="stat-num">7 KB</div><div class="stat-label">Est. Size</div></div>
+            </div>
+
+            <div class="list-controls-sticky">
+              <div class="search-input-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="search-input" placeholder="Search by alt text, URL, filename...">
+              </div>
+              <div class="filter-chips">
+                <button class="chip active">All</button>
+                <button class="chip">Missing Alt</button>
+                <button class="chip">Missing Title</button>
+                <button class="chip">Empty Alt</button>
+                <button class="chip">Lazy</button>
+                <button class="chip">WebP</button>
+                <button class="chip">SVG</button>
+                <button class="chip">JPG</button>
+                <button class="chip">PNG</button>
+              </div>
+            </div>
+
+            <div class="list-summary-bar" style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+              <span class="count-indicator" style="font-size: 12px; color: var(--text-secondary);">Showing 2 of 2 images</span>
+              <div class="btn-group" style="display: flex; gap: 6px;">
+                <button class="btn btn-primary btn-xs" style="background: #4F46E5; color: #fff;">
+                  <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  <span>ZIP All</span>
+                </button>
+                <button class="btn btn-secondary btn-xs">CSV</button>
+                <button class="btn btn-secondary btn-xs">JSON</button>
+              </div>
+            </div>
+
+            <div class="media-items-list">
+              <div class="media-item-card">
+                <div class="media-thumb-wrap">
+                  <img src="icons/icon48.png" class="media-thumb" alt="EasyPro Tools Favicon">
+                </div>
+                <div class="media-info">
+                  <div class="media-header-row">
+                    <span class="media-title">easypro-tools-favicon.png</span>
+                    <span class="badge font-mono">PNG</span>
+                  </div>
+                  <div class="media-subtext">
+                    <span>Alt:</span>
+                    <span class="badge badge-success font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">EasyPro Tools | Online Free To...</span>
+                  </div>
+                  <div class="media-subtext font-mono" style="font-size: 10.5px;">
+                    <span>64×64px • 7 KB</span>
+                  </div>
+                  <div style="display: flex; gap: 6px; margin-top: 8px;">
+                    <button class="btn btn-secondary btn-xs">Download</button>
+                    <button class="btn btn-secondary btn-xs">Preview</button>
+                    <button class="btn btn-secondary btn-xs">Locate</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 5: VIDEOS -->
+          <section id="pane-videos" class="tab-pane">
+            <div class="stat-grid three-col">
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Total Videos</div></div>
+              <div class="stat-card"><div class="stat-num text-info">0</div><div class="stat-label">Embedded</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Self-Hosted</div></div>
+            </div>
+            <div class="empty-state-card" style="text-align: center; padding: 40px 10px;">
+              <svg class="tab-icon" style="width: 32px; height: 32px; margin: 0 auto 10px; color: var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="14" x="3" y="5" rx="2"/><polygon points="10 9 15 12 10 15 10 9"/></svg>
+              <p style="font-size: 13px; color: var(--text-secondary);">No video elements or video embeds found on this page.</p>
+            </div>
+          </section>
+
+          <!-- TAB 6: LINKS (Screenshot Match) -->
+          <section id="pane-links" class="tab-pane">
+            <div class="stat-grid four-col">
+              <div class="stat-card"><div class="stat-num">516</div><div class="stat-label">Total Links</div></div>
+              <div class="stat-card"><div class="stat-num" style="color: #0284c7;">515</div><div class="stat-label">Internal</div></div>
+              <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">External</div></div>
+              <div class="stat-card"><div class="stat-num text-success" style="color: #10B981;">516</div><div class="stat-label">Dofollow</div></div>
+            </div>
+            <div class="stat-grid four-col" style="margin-top: 8px;">
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Nofollow</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">No Anchor Text</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Broken (4xx/5xx)</div></div>
+              <div class="stat-card"><div class="stat-num">0</div><div class="stat-label">Redirected (3xx)</div></div>
+            </div>
+
+            <!-- HTTP Status Checker -->
+            <div class="card status-checker-card" style="margin: 12px 0; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card);">
+              <div>
+                <h4 style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">HTTP Status Checker</h4>
+                <p style="font-size: 11.5px; color: var(--text-secondary); margin: 0;">Check 404 broken links &amp; redirects.</p>
+              </div>
+              <button class="btn btn-primary" id="demo-btn-check-status" style="background: #4F46E5; color: #fff; padding: 6px 14px; font-size: 12px; font-weight: 600; border-radius: var(--radius-sm); border: none; cursor: pointer;">
+                <span>Check Status</span>
+              </button>
+            </div>
+
+            <div class="list-controls-sticky">
+              <div class="search-input-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" class="search-input" placeholder="Search anchor text or link URL...">
+              </div>
+              <div class="filter-chips">
+                <button class="chip active">All</button>
+                <button class="chip">Internal</button>
+                <button class="chip">External</button>
+                <button class="chip">Dofollow</button>
+                <button class="chip">Nofollow</button>
+                <button class="chip">Broken</button>
+                <button class="chip">Redirected</button>
+                <button class="chip">No Text</button>
+              </div>
+            </div>
+
+            <div class="list-summary-bar" style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0;">
+              <span class="count-indicator" style="font-size: 12px; color: var(--text-secondary);">Showing 35 of 516 links</span>
+              <div class="btn-group" style="display: flex; gap: 6px;">
+                <button class="btn btn-secondary btn-xs">Copy All</button>
+                <button class="btn btn-secondary btn-xs">CSV</button>
+                <button class="btn btn-secondary btn-xs">JSON</button>
+              </div>
+            </div>
+
+            <div class="links-list">
+              <div class="link-item-card" style="padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-card); margin-bottom: 8px;">
+                <div class="link-anchor-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span class="link-anchor-text" style="font-weight: 600; font-size: 13px;">EasyPro Tools</span>
+                  <div style="display: flex; gap: 6px;">
+                    <span class="badge font-mono" style="background: rgba(56, 189, 248, 0.15); color: #0284c7;">Internal</span>
+                    <span class="badge badge-success font-mono" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">Dofollow</span>
+                    <span class="badge font-mono" style="color: var(--text-muted);">Untested</span>
+                  </div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="link-url-text font-mono" style="font-size: 11.5px; color: #4F46E5;">https://easyprotools.com/</div>
+                  <div style="display: flex; gap: 6px;">
+                    <button class="btn btn-secondary btn-xs">Locate</button>
+                    <button class="copy-btn"><svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 7: SCHEMA -->
+          <section id="pane-schema" class="tab-pane">
+            <div class="card">
+              <div class="card-header-clean">
+                <h3 class="section-title">Detected Schema Types</h3>
+                <span class="badge badge-success">1 Block Found</span>
+              </div>
+              <div class="schema-types-pills" style="margin-top: 8px;">
+                <span class="badge badge-info font-mono">WebSite (JSON-LD)</span>
+              </div>
+            </div>
+            <div class="schema-block-card">
+              <div class="schema-block-header">
+                <div class="schema-block-title">
+                  <span class="badge badge-success font-mono">JSON-LD</span>
+                  <span>Block #1: WebSite</span>
+                </div>
+              </div>
+              <pre class="schema-json-viewer"><code>{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "EasyPro Tools",
+  "url": "https://easyprotools.com/"
+}</code></pre>
+            </div>
+          </section>
+
+          <!-- TAB 8: TOOLS -->
+          <section id="pane-tools" class="tab-pane">
+            <div class="tools-grid">
+              <div class="tool-card">
+                <div class="tool-card-top">
+                  <span class="tool-name">Google Search Console</span>
+                  <span class="badge badge-info">Google Tools</span>
+                </div>
+                <p class="tool-desc">Track organic search performance, indexing, and Core Web Vitals.</p>
+              </div>
+              <div class="tool-card">
+                <div class="tool-card-top">
+                  <span class="tool-name">PageSpeed Insights</span>
+                  <span class="badge badge-info">Speed</span>
+                </div>
+                <p class="tool-desc">Measure Core Web Vitals and Lighthouse performance metrics.</p>
+              </div>
+              <div class="tool-card">
+                <div class="tool-card-top">
+                  <span class="tool-name">Ahrefs Webmaster Tools</span>
+                  <span class="badge badge-info">Backlinks</span>
+                </div>
+                <p class="tool-desc">Monitor backlinks, keyword rankings, and SEO health.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- TAB 9: ABOUT -->
+          <section id="pane-about" class="tab-pane">
+            <div class="about-hero-card">
+              <img src="icons/icon48.png" alt="SEOscoper" class="about-hero-logo" width="48" height="48">
+              <div class="about-hero-info">
+                <h2 class="about-title">SEOscoper</h2>
+                <div class="about-version-row">
+                  <span class="badge badge-primary">Version 2.0.2</span>
+                  <span class="badge badge-success">Manifest V3</span>
+                </div>
+              </div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-top: 10px; line-height: 1.5;">
+              SEOscoper is a comprehensive on-page SEO analyzer Chrome extension built by Rakib Alom to help webmasters audit critical on-page elements in real time with a single click.
+            </p>
+          </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+          <div class="footer-credit">
+            <span>SEOscoper by </span>
+            <a href="https://rakibalom.com/" target="_blank" rel="noopener noreferrer" class="footer-author-link">Rakib Alom</a>
+          </div>
+          <button class="btn-donate-coffee" id="btn-coffee-demo">
+            <span class="coffee-icon">☕</span>
+            <span>Buy me a coffee</span>
+          </button>
+        </footer>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const panes = document.querySelectorAll('.tab-pane');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        panes.forEach(p => {
+          if (p.id === `pane-${target}`) {
+            p.classList.add('active');
+          } else {
+            p.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    // Theme toggle
+    const themeBtn = document.getElementById('btn-theme-toggle');
+    themeBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+
+    // View score button
+    const viewScoreBtn = document.getElementById('demo-btn-view-score');
+    if (viewScoreBtn) {
+      viewScoreBtn.addEventListener('click', () => {
+        const scoreBtn = document.querySelector('[data-tab="score"]');
+        if (scoreBtn) scoreBtn.click();
+      });
+    }
+
+    // Refresh spinning animation
+    const refreshBtn = document.getElementById('btn-refresh');
+    refreshBtn.addEventListener('click', () => {
+      refreshBtn.classList.add('spinning');
+      setTimeout(() => refreshBtn.classList.remove('spinning'), 800);
+    });
+
+    // Walkthrough Tour & Video Recording
+    const statusPill = document.getElementById('tour-status');
+    const playTourBtn = document.getElementById('btn-play-tour');
+    const recordTourBtn = document.getElementById('btn-record-tour');
+    let isTourRunning = false;
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function runTour(onComplete) {
+      if (isTourRunning) return;
+      isTourRunning = true;
+      playTourBtn.disabled = true;
+
+      const mainScroll = document.querySelector('.app-main');
+
+      // 1. Summary
+      statusPill.textContent = '1/6: Page Summary & Keywords';
+      const summaryBtn = document.querySelector('[data-tab="summary"]');
+      if (summaryBtn) summaryBtn.click();
+      if (mainScroll) mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+      await delay(2000);
+      if (mainScroll) mainScroll.scrollTo({ top: 320, behavior: 'smooth' });
+      await delay(2200);
+
+      // 2. Score Breakdown
+      statusPill.textContent = '2/6: SEO Score & Audit Factors';
+      const scoreBtn = document.querySelector('[data-tab="score"]');
+      if (scoreBtn) scoreBtn.click();
+      if (mainScroll) mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+      await delay(1800);
+      if (mainScroll) mainScroll.scrollTo({ top: 300, behavior: 'smooth' });
+      await delay(2000);
+
+      // 3. Headings
+      statusPill.textContent = '3/6: Heading Structure Tree (H1-H6)';
+      const headingsBtn = document.querySelector('[data-tab="headings"]');
+      if (headingsBtn) headingsBtn.click();
+      if (mainScroll) mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+      await delay(2200);
+      if (mainScroll) mainScroll.scrollTo({ top: 350, behavior: 'smooth' });
+      await delay(2000);
+
+      // 4. Images
+      statusPill.textContent = '4/6: Image Alt Text Audit';
+      const imagesBtn = document.querySelector('[data-tab="images"]');
+      if (imagesBtn) imagesBtn.click();
+      if (mainScroll) mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+      await delay(2200);
+
+      // 5. Links
+      statusPill.textContent = '5/6: Internal vs External Links';
+      const linksBtn = document.querySelector('[data-tab="links"]');
+      if (linksBtn) linksBtn.click();
+      if (mainScroll) mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+      await delay(2200);
+
+      // 6. Theme Toggle Demo
+      statusPill.textContent = '6/6: Light & Dark Themes';
+      themeBtn.click();
+      await delay(1800);
+      themeBtn.click();
+      await delay(1200);
+
+      // Return to Summary
+      if (summaryBtn) summaryBtn.click();
+      if (mainScroll) mainScroll.scrollTo({ top: 0, behavior: 'smooth' });
+      statusPill.textContent = 'Tour Complete! ✨';
+      isTourRunning = false;
+      playTourBtn.disabled = false;
+
+      if (typeof onComplete === 'function') onComplete();
+    }
+
+    playTourBtn.addEventListener('click', () => {
+      runTour();
+    });
+
+    recordTourBtn.addEventListener('click', async () => {
+      try {
+        statusPill.textContent = 'Select window to record...';
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          video: { frameRate: { ideal: 60 } },
+          audio: false
+        });
+
+        const recordedChunks = [];
+        const mediaRecorder = new MediaRecorder(stream, {
+          mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm'
+        });
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          a.download = 'seoscoper_preview_walkthrough.webm';
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          }, 100);
+          statusPill.textContent = 'Video Downloaded! 🎉';
+        };
+
+        mediaRecorder.start();
+        runTour(() => {
+          setTimeout(() => {
+            mediaRecorder.stop();
+            stream.getTracks().forEach(track => track.stop());
+          }, 1000);
+        });
+      } catch (err) {
+        console.warn('Screen recording cancelled or failed:', err);
+        statusPill.textContent = 'Recording cancelled';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,20 +1,46 @@
 {
   "manifest_version": 3,
-  "name": "SEOscoper",
-  "version": "1.2.20",
+  "name": "SEOscoper - On-Page SEO Analyzer & Checker",
+  "short_name": "SEOscoper",
+  "version": "2.0.2",
+  "description": "Analyze meta tags, headings, images, links, schema markup, and SEO score on any webpage with 1 click. Free on-page SEO analyzer.",
   "author": "Rakib Alom",
-  "description": "A tool designed to assist SEO experts in analyzing critical webpage elements, including metadata, headings, images, and links.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting",
+    "storage",
+    "clipboardWrite",
+    "downloads"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "action": {
     "default_popup": "popup.html",
+    "default_title": "Analyze on-page SEO with SEOscoper",
     "default_icon": {
       "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
     }
   },
   "icons": {
     "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   }
